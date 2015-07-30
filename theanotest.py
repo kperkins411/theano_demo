@@ -190,9 +190,15 @@ def main(N=100, hiddenlayersize=4, numb_iterations =20):
     means = np.array([[-1, 1], [-1, 1]])
     # Covariance (in X and Y direction) of each cluster
     covariances = np.random.random_sample((2, 2)) + 1
+
     # Dimensions of each point
-    X = np.vstack([np.random.randn(N)*covariances[0, outputs] + means[0, outputs],
-                    np.random.randn(N)*covariances[1, outputs] + means[1, outputs]])
+    # X = np.vstack([np.random.randn(N)*covariances[0, outputs] + means[0, outputs],
+    #                 np.random.randn(N)*covariances[1, outputs] + means[1, outputs]])
+
+    #try spreading out the distribution
+    X = np.vstack([np.random.randn(N)*covariances[0, outputs] + outputs*6,
+                    np.random.randn(N)*covariances[1, outputs] + outputs*6])
+    # #lets try spreading the clusters
 
     # outputs = np.random.random_integers(0, 1, N)
     #
@@ -207,7 +213,7 @@ def main(N=100, hiddenlayersize=4, numb_iterations =20):
 
     plt.figure(figsize=(8, 8))
     plt.scatter(X[0, :], X[1, :], c=color_outputs, lw=.3, s=3, cmap=plt.cm.cool)
-    plt.axis([-6, 6, -6, 6])
+    plt.axis([-12, 12, -12, 12])
     plt.show(block=False)
 
 
@@ -263,7 +269,7 @@ def main(N=100, hiddenlayersize=4, numb_iterations =20):
 
     plt.ion()
     plt.figure(figsize=(8, 8))
-    plt.axis([-6, 6, -6, 6])
+    plt.axis([-12, 12, -12, 12])
 
     while iteration < numb_iterations:
         # Train the network using the entire training set.
@@ -290,8 +296,8 @@ def main(N=100, hiddenlayersize=4, numb_iterations =20):
                     lw=.3, s=20, cmap=plt.cm.cool, vmin=0, vmax=1)
         plt.title('Cost: {:.3f}, Accuracy: {:.3f}'.format(float(current_cost), accuracy))
 
-        plt.show(block=False)
-       # plt.draw()
+        #plt.show(block=False)
+        plt.draw()
 
         print "Current iteration=" + str(iteration)
         iteration += 1
